@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% from "components/goal.html" import render_goal %}
+
+{% block content %}
+{{ render_goal(goal, histories) }}
+{% endblock %}

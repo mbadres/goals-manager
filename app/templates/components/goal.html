@@ -1,0 +1,44 @@
+{% macro render_goal(goal, histories) %}
+
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <h1 class="title">Details</h1>
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <a class="button" href="{{ url_for('main.index') }}">
+            <span class="icon">
+                <i class="fa-solid fa-arrow-left"></i>
+            </span>
+            <span>Back to Overview</span>
+        </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="is-flex is-justify-content-space-between">
+            <h2 class="subtitle">{{ goal.department }}</h2>
+            <p class="title is-4 has-text-link">{{ goal.current_score }}/10</p>
+        </div>
+        <p><strong>Statement:</strong> {{ goal.statement }}</p>
+        <p><strong>Success Criteria:</strong> {{ goal.criteria }}</p>
+    </div>
+
+    <div class="mt-5">
+        <h3 class="title is-4">History</h3>
+        {% for history in histories %}
+        <div class="notification">
+            <div class="is-flex is-justify-content-space-between">
+                <span class="has-text-weight-bold">Score: {{ history.score }}/10</span>
+                <span>{{ history.modified_at.strftime('%Y-%m-%d %H:%M') }}</span>
+            </div>
+            <p class="mt-3"><strong>Status:</strong> {{ history.state }}</p>
+            <p><strong>Comment:</strong> {{ history.comment }}</p>
+            <p class="is-size-7 mt-2">Modified by {{ history.modified_by }}</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endmacro %}

@@ -1,0 +1,154 @@
+{% macro render_overview(goals) %}
+<section class="section">
+    <!-- Header with Add Button -->
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <h1 class="title">Overview</h1>
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <a class="button is-link" href="{{ url_for('main.new_goal') }}">
+                    <span class="icon">
+                        <i class="fa-solid fa-plus"></i>
+                    </span>
+                    <span>Add Goal</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="columns">
+        <div class="column is-3">
+            <div class="field">
+                <label class="label">Department</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="departmentFilter">
+                            <option value="">All Departments</option>
+                            {% for department in goals|map(attribute='department')|unique|sort %}
+                            <option value="{{ department }}">{{ department }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div class="field">
+                <label class="label">Score</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select id="scoreFilter">
+                            <option value="">All Scores</option>
+                            <option value="high">High (8-10)</option>
+                            <option value="medium">Medium (4-7)</option>
+                            <option value="low">Low (1-3)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-5">
+            <div class="field">
+                <label class="label">Search</label>
+                <div class="control has-icons-left">
+                    <input class="input" id="searchInput" placeholder="Search goals..." type="text">
+                    <span class="icon is-left">
+                        <i class="fa-solid fa-search"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="column is-1">
+            <div class="field">
+                <label class="label">&nbsp;</label>
+                <button class="button is-light" onclick="resetFilters()">
+                    <span class="icon">
+                        <i class="fa-solid fa-refresh"></i>
+                    </span>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container">
+        <table class="table is-fullwidth is-hoverable">
+            <thead>
+            <tr>
+                <th>Department</th>
+                <th>Goal</th>
+                <th>Criteria</th>
+                <th>Score</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="goalsTableBody">
+            {% for goal in goals %}
+            <tr class="goal-row"
+                data-department="{{ goal.department }}"
+                data-score="{{ goal.current_score }}">
+                <td>{{ goal.department }}</td>
+                <td>{{ goal.statement }}</td>
+                <td>{{ goal.criteria | replace('\n', '<br>') | safe }}</td>
+                <td>
+                    <span class="tag is-link is-large">
+                        {{ goal.current_score }}/10
+                    </span>
+                </td>
+                <td>{{ goal.latest_state }}</td>
+                <td>
+                    <div class="buttons are-small">
+                        <a class="button is-primary" href="{{ url_for('main.view_goal', goal_id=goal.id) }}">
+                            <span class="icon">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                        </a>
+                        <a class="button is-warning" href="{{ url_for('main.edit_goal', goal_id=goal.id) }}">
+                            <span class="icon">
+                                <i class="fa-solid fa-edit"></i>
+                            </span>
+                        </a>
+                        <button class="button is-danger" onclick="confirmDelete({{ goal.id }})">
+                            <span class="icon">
+                                <i class="fa-solid fa-trash"></i>
+                            </span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Confirm Delete</p>
+                <button aria-label="close" class="delete" onclick="closeModal()"></button>
+            </header>
+            <section class="modal-card-body">
+                Are you sure you want to delete this goal?
+            </section>
+            <footer class="modal-card-foot">
+                <form id="deleteForm" method="POST">
+                    <button class="button is-danger" type="submit">Delete</button>
+                    <button class="button" onclick="closeModal()" type="button">Cancel</button>
+                </form>
+            </footer>
+        </div>
+    </div>
+</section>
+{% endmacro %}
+
+{% macro render_overview_scripts() %}
+<script src="{{ url_for('static', filename='js/goals.js') }}"></script>
+{% endmacro %}

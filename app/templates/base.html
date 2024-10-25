@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" rel="stylesheet">
+    <script crossorigin="anonymous" defer src="https://kit.fontawesome.com/335abea364.js"></script>
+    {% block extra_head %}{% endblock %}
+    <title>{% block title %}Goals Manager{% endblock %}</title>
+</head>
+<body>
+<section class="hero is-link">
+    <div class="hero-body">
+        <div class="container"><h1 class="title">Goals Manager</h1></div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</section>
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p><strong>Goals Manager</strong></p>
+        <p>
+            The source code is licensed under
+            <a href="https://opensource.org/license/agpl-v3">GNU Affero General Public License version 3</a>.
+        </p>
+    </div>
+</footer>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

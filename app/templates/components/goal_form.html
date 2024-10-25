@@ -1,0 +1,77 @@
+{% macro render_goal_form(goal=None) %}
+<div class="box">
+    <h2 class="title">
+        {% if goal %}
+        Edit Goal
+        {% else %}
+        Create New Goal
+        {% endif %}
+    </h2>
+    <form action="{{ url_for('main.save_goal', goal_id=goal.id) if goal else url_for('main.create_goal') }}"
+          method="POST">
+        <div class="field">
+            <label class="label">Department</label>
+            <div class="control">
+                <input class="input" name="department" required type="text"
+                       value="{{ goal.department if goal else '' }}">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Statement</label>
+            <div class="control">
+                <textarea class="textarea" name="statement" required>{{ goal.statement if goal else '' }}</textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Success Criteria</label>
+            <div class="control">
+                <textarea class="textarea" name="criteria" required>{{ goal.criteria if goal else '' }}</textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Score (1-10)</label>
+            <div class="control">
+                <input class="input" max="10" min="1" name="score" required type="number">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Status</label>
+            <div class="control">
+                <textarea class="textarea" name="state" required></textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Comment</label>
+            <div class="control">
+                <textarea class="textarea" name="comment"></textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Modified by</label>
+            <div class="control">
+                <input class="input" name="modified_by" required type="text">
+            </div>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link" type="submit">
+                    <span class="icon">
+                        <i class="fa-solid {{ 'fa-save' if goal else 'fa-plus' }}"></i>
+                    </span>
+                    <span>{{ 'Save' if goal else 'Create' }}</span>
+                </button>
+            </div>
+            <div class="control">
+                <a class="button" href="{{ url_for('main.index') }}">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endmacro %}

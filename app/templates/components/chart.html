@@ -1,0 +1,9 @@
+{% macro render_chart() %}
+<canvas id="progressChart"></canvas>
+{% endmacro %}
+
+{% macro render_chart_scripts() %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+{% endmacro %}

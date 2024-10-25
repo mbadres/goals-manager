@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "components/overview.html" import render_overview, render_overview_scripts %}
+{% from "components/chart.html" import render_chart, render_chart_scripts %}
+
+{% block content %}
+<!-- Graph Section -->
+{{ render_chart() }}
+
+<!-- Goals Overview Section -->
+
+{{ render_overview(goals) }}
+
+{% endblock %}
+
+{% block extra_scripts %}
+{{ render_chart_scripts() }}
+{{ render_overview_scripts() }}
+{% endblock %}
